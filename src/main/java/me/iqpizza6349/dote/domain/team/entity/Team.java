@@ -22,4 +22,8 @@ public class Team {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Vote vote;
+
+    public void setVote(Vote vote) {
+        this.vote = vote;
+    }
 }

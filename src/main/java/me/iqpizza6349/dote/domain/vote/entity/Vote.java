@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.team.entity.Team;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,8 +28,11 @@ public class Vote {
     private Member member;
 
     @Builder.Default
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "vote")
     private Set<Team> teams = new HashSet<>();
 
+    public void addTeam(Team team) {
+        team.setVote(this);
+        teams.add(team);
+    }
 }
