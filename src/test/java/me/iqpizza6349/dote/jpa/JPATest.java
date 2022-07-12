@@ -1,4 +1,4 @@
-package me.iqpizza6349.dote;
+package me.iqpizza6349.dote.jpa;
 
 import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.member.repository.MemberRepository;
