@@ -34,4 +34,10 @@ public class Member {
         }
     }
 
+    public static class UnAuthenticationException extends BusinessException {
+        public UnAuthenticationException() {
+            super(HttpStatus.UNAUTHORIZED, "토큰이 입력되지 않았습니다.");
+        }
+    }
+
 }
