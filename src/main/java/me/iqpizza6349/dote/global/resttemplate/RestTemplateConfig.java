@@ -30,7 +30,7 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate openTemplate() {
-        return restTemplate(EndPoint.AUTH.getEndPoint());
+        return restTemplate(EndPoint.OPEN_API.getEndPoint());
     }
 
 
