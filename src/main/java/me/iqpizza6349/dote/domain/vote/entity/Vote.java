@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.team.entity.Team;
 import org.hibernate.annotations.Formula;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,10 +22,10 @@ public class Vote {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime expiryDate;
+    private String title;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Member member;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime expiryDate;
 
     @Builder.Default
     @OneToMany(mappedBy = "vote")
@@ -34,5 +34,15 @@ public class Vote {
     public void addTeam(Team team) {
         team.setVote(this);
         teams.add(team);
+    }
+
+    public static Vote createVote(String title, Set<Team> teams,  LocalDateTime expiryDate) {
+        return Vote.builder()
+                .title(title)
+                .teams(teams)
+                .expiryDate((expiryDate == null)
+                        ? LocalDateTime.of(2038, 1, 19, 12, 14, 8)
+                        : expiryDate)
+                .build();
     }
 }

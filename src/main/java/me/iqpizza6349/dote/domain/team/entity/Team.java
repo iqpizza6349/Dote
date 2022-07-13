@@ -26,4 +26,8 @@ public class Team {
     public void setVote(Vote vote) {
         this.vote = vote;
     }
+
+    public Team(String name) {
+        this(null, name, null);
+    }
 }

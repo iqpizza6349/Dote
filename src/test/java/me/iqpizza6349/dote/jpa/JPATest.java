@@ -3,6 +3,7 @@ package me.iqpizza6349.dote.jpa;
 import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.member.repository.MemberRepository;
 import me.iqpizza6349.dote.domain.member.type.Role;
+import me.iqpizza6349.dote.domain.team.entity.MemberTeam;
 import me.iqpizza6349.dote.domain.team.entity.Team;
 import me.iqpizza6349.dote.domain.team.repository.TeamRepository;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
@@ -50,7 +51,8 @@ public class JPATest {
         // select v from Vote v where member_id = ? and team_id = ?
         // 해서 존재한다면 이미 투표한 것
         Member member = memberRepository.save(new Member(null, 2, 2, 17, Role.ADMIN));
-        Vote vote = voteRepository.save(new Vote(null, null, member, new HashSet<>()));
+        Vote vote = voteRepository.save(Vote.createVote("happy", new HashSet<>(), null));
+        MemberTeam memberTeam = new MemberTeam();
         Set<Team> teams = new HashSet<>();
         for (int i = 0; i < 5; i++) {
             teams.add(new Team(null, "happy", null));
