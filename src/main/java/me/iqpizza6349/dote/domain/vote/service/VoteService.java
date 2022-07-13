@@ -1,11 +1,16 @@
 package me.iqpizza6349.dote.domain.vote.service;
 
 import lombok.RequiredArgsConstructor;
+import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.team.dto.TeamDto;
+import me.iqpizza6349.dote.domain.team.entity.MemberTeam;
 import me.iqpizza6349.dote.domain.team.entity.Team;
+import me.iqpizza6349.dote.domain.team.service.TeamService;
+import me.iqpizza6349.dote.domain.vote.dto.BallotDto;
 import me.iqpizza6349.dote.domain.vote.dto.VoteDto;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
 import me.iqpizza6349.dote.domain.vote.repository.VoteRepository;
+import me.iqpizza6349.dote.domain.vote.ro.BallotRO;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,7 @@ import java.util.stream.Collectors;
 public class VoteService {
 
     private final VoteRepository voteRepository;
+    private final TeamService teamService;
 
     public VoteRO createVote(VoteDto voteDto) {
         Set<Team> teamSet = voteDto.getItems()
@@ -45,6 +51,14 @@ public class VoteService {
                 .map(VoteRO::new)
                 .collect(Collectors.toList()));
     }
+
+    public BallotRO addVote(Member member, BallotDto ballotDto) {
+        Vote vote = findById(ballotDto.getVoteId());
+        teamService.ballot(member, vote, ballotDto.getTeamId());
+        return new BallotRO(ballotDto.getTeamId());
+    }
+
+    // TODO 현황 조회
 
     @Transactional(readOnly = true)
     protected Vote findById(long voteId) {
