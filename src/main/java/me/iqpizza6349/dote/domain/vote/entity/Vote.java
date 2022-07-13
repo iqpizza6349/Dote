@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.team.entity.Team;
+import me.iqpizza6349.dote.global.exception.BusinessException;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -44,5 +46,11 @@ public class Vote {
                         ? LocalDateTime.of(2038, 1, 19, 12, 14, 8)
                         : expiryDate)
                 .build();
+    }
+
+    public static class NotExistException extends BusinessException {
+        public NotExistException() {
+            super(HttpStatus.NOT_FOUND, "존재하지 않는 투표입니다.");
+        }
     }
 }

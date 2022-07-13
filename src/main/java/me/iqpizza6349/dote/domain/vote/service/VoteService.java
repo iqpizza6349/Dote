@@ -8,13 +8,14 @@ import me.iqpizza6349.dote.domain.vote.entity.Vote;
 import me.iqpizza6349.dote.domain.vote.repository.VoteRepository;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(propagation = Propagation.NESTED)
 @RequiredArgsConstructor
 public class VoteService {
 
@@ -29,5 +30,15 @@ public class VoteService {
 
         Vote vote = Vote.createVote(voteDto.getTitle(), teamSet, voteDto.getEndTime());
         return new VoteRO(voteRepository.save(vote));
+    }
+    
+    public void deleteVote(long voteId) {
+        voteRepository.delete(findById(voteId));
+    }
+
+    @Transactional(readOnly = true)
+    protected Vote findById(long voteId) {
+        return voteRepository.findById(voteId)
+                .orElseThrow(Vote.NotExistException::new);
     }
 }
