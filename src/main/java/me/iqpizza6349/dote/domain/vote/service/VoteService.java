@@ -7,6 +7,7 @@ import me.iqpizza6349.dote.domain.vote.dto.VoteDto;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
 import me.iqpizza6349.dote.domain.vote.repository.VoteRepository;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,15 @@ public class VoteService {
     
     public void deleteVote(long voteId) {
         voteRepository.delete(findById(voteId));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<VoteRO> findVotePage(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("expiryDate").descending());
+        Page<Vote> votePage = voteRepository.findAll(pageable);
+        return new PageImpl<>(votePage.stream()
+                .map(VoteRO::new)
+                .collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
