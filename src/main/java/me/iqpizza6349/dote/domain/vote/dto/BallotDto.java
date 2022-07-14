@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 public class BallotDto {
 
-    @JsonProperty("vote_id")
-    private long voteId;
-
     @JsonProperty("team_id")
+    @NotNull(message = "투표할 항목은 필수 입력값입니다.")
     private long teamId;
 
 }

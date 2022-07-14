@@ -21,7 +21,7 @@ public class Team {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn
     private Vote vote;
 
@@ -38,6 +38,4 @@ public class Team {
             super(HttpStatus.NOT_FOUND, "존재하지 않는 항목입니다.");
         }
     }
-
-
 }

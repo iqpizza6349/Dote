@@ -5,6 +5,7 @@ import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.vote.dto.BallotDto;
 import me.iqpizza6349.dote.domain.vote.dto.VoteDto;
 import me.iqpizza6349.dote.domain.vote.ro.BallotRO;
+import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
 import me.iqpizza6349.dote.domain.vote.service.VoteService;
 import me.iqpizza6349.dote.global.annotations.AuthToken;
@@ -35,20 +36,24 @@ public class VoteController {
         voteService.deleteVote(voteId);
     }
 
-    @AuthToken
     @GetMapping
     public Page<VoteRO> findVotePage(@RequestParam int page) {
         return voteService.findVotePage(page);
     }
 
     @AuthToken
-    @PostMapping("/ballot")
+    @PostMapping("/{vote-id}/ballot")
     @ResponseStatus(HttpStatus.CREATED)
     public BallotRO addBallot(@RequestAttribute Member member,
+                              @PathVariable(name = "vote-id") long voteId,
                               @RequestBody @Valid BallotDto ballotDto) {
-        return voteService.addVote(member, ballotDto);
+        return voteService.addVote(member, voteId, ballotDto);
     }
 
-    // TODO 현황 조회
-
+    @GetMapping("/{vote-id}/ballot")
+    public Page<TeamRO> findStatusInquiry(
+            @PathVariable(name = "vote-id") long voteId,
+            @RequestParam int page) {
+        return voteService.findStatusInquiry(voteId, page);
+    }
 }

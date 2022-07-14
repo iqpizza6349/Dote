@@ -1,14 +1,16 @@
 package me.iqpizza6349.dote.domain.team.entity.embed;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
 @AllArgsConstructor @NoArgsConstructor
 public class MemberTeamId implements Serializable {
-
+    
     private int member;
     private long team;
 

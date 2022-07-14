@@ -1,5 +1,6 @@
 package me.iqpizza6349.dote.domain.vote.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class VoteDto {
     private List<TeamDto> items;
 
     @JsonProperty("end_time")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @Nullable
     private LocalDateTime endTime;
 

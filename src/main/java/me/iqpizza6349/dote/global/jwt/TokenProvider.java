@@ -39,7 +39,8 @@ public class TokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(jwtAuth.toString())
-                .setIssuedAt(expiredAt)
+                .setIssuedAt(new Date())
+                .setExpiration(expiredAt)
                 .signWith(SIGNATURE_ALGORITHM, secretKey)
                 .compact();
     }

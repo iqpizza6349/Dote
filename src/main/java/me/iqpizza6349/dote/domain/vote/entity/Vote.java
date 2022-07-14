@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.team.entity.Team;
 import me.iqpizza6349.dote.global.exception.BusinessException;
-import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 
@@ -30,7 +29,7 @@ public class Vote {
     private LocalDateTime expiryDate;
 
     @Builder.Default
-    @OneToMany(mappedBy = "vote")
+    @OneToMany(mappedBy = "vote", cascade = {CascadeType.ALL})
     private Set<Team> teams = new HashSet<>();
 
     public void addTeam(Team team) {
@@ -39,13 +38,17 @@ public class Vote {
     }
 
     public static Vote createVote(String title, Set<Team> teams,  LocalDateTime expiryDate) {
-        return Vote.builder()
+        Vote vote = Vote.builder()
                 .title(title)
-                .teams(teams)
                 .expiryDate((expiryDate == null)
                         ? LocalDateTime.of(2038, 1, 19, 12, 14, 8)
                         : expiryDate)
                 .build();
+        for (Team team : teams) {
+            vote.addTeam(team);
+        }
+
+        return vote;
     }
 
     public static class NotExistException extends BusinessException {
