@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import me.iqpizza6349.dote.domain.member.entity.Member;
+import me.iqpizza6349.dote.domain.member.type.Role;
 import me.iqpizza6349.dote.global.dto.RestBaseDto;
 
 @Getter
@@ -45,6 +46,7 @@ public class DOpenApiDto extends RestBaseDto {
                     .grade(data.getGrade())
                     .number(data.getNumber())
                     .room(data.getRoom())
+                    .role(Role.USER)
                     .build();
         }
     }

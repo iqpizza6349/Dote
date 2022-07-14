@@ -26,7 +26,6 @@ public class Member {
 
     private int number;
 
-    @ColumnDefault("USER")
     @Enumerated(EnumType.STRING)
     private Role role;
 
