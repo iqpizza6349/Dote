@@ -1,6 +1,7 @@
 package me.iqpizza6349.dote.domain.dauth.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.iqpizza6349.dote.domain.dauth.dto.*;
 import me.iqpizza6349.dote.domain.dauth.entity.DToken;
 import me.iqpizza6349.dote.domain.dauth.repository.DTokenRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DAuthService {
@@ -28,19 +30,22 @@ public class DAuthService {
     private final DTokenRepository dTokenRepository;
     private final TokenProvider tokenProvider;
 
-    private DOpenApiDto getCodeToDodamInfo(final String code) {
+    private DOpenApiDto.DodamInfoData getCodeToDodamInfo(final String code) {
+        log.info("----- dodam server request -----");
         HttpHeaders headers = new HttpHeaders();
-        headers.add("authorization", "Bearer "
+        headers.add("Authorization", "Bearer "
                 + getDAuthToken(code).getAccessToken());
+        log.info("header: {}", headers.get("Authorization"));
         return restTemplateConfig.openTemplate().exchange(
                 "/user",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
-                DOpenApiDto.class
+                DOpenApiDto.DodamInfoData.class
         ).getBody();
     }
 
     private DAuthServerDto getDAuthToken(@NotNull String code) {
+        log.info("----- dauth server request -----");
         return restTemplateConfig.authTemplate()
                 .postForObject("/token", new HttpEntity<>(
                         DAuthRequestDto.builder()
@@ -54,7 +59,12 @@ public class DAuthService {
 
     @Transactional
     public LoginDto dodamLogin(DodamLoginDto dodamLoginDto) {
-        Member member = memberService.save(getCodeToDodamInfo(dodamLoginDto.getCode()));
+        DOpenApiDto.DodamInfoData data = getCodeToDodamInfo(dodamLoginDto.getCode());
+        log.info("dto: {}", data);
+        log.info("grade: {}", data.getGrade());
+        log.info("room: {}", data.getRoom());
+        log.info("number: {}", data.getNumber());
+        Member member = memberService.save(new DOpenApiDto(data));
         dTokenRepository.save(new DToken(null, dodamLoginDto.getCode()));
         String memberId = Integer.toString(member.getId());
         return LoginDto.builder()
