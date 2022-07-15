@@ -46,5 +46,4 @@ public class Member {
             super(HttpStatus.FORBIDDEN, "접근할 수 있는 권한이 없습니다.");
         }
     }
-
 }

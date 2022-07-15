@@ -36,5 +36,4 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
             return bufferedReader.readLine();
         }
     }
-
 }

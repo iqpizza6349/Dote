@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -44,12 +43,6 @@ public class TeamService {
     @Transactional(readOnly = true)
     protected List<Team> findAllByTeamId(Vote vote) {
         return teamRepository.findAllByVote(vote);
-    }
-    
-    @Transactional(readOnly = true)
-    protected MemberTeam findById(MemberTeamId memberTeamId) {
-        return memberTeamRepository.findById(memberTeamId)
-                .orElseThrow(MemberTeam.NeverVotedException::new);
     }
     
     @Transactional(readOnly = true)
@@ -116,5 +109,4 @@ public class TeamService {
     public List<Team> findAllTeams(Vote vote) {
         return findAllByTeamId(vote);
     }
-
 }
