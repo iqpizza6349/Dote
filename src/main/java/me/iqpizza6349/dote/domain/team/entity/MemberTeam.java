@@ -34,8 +34,8 @@ public class MemberTeam implements Serializable {
     }
 
     @Formula("(select count(*) from member_team mt " +
-            "where = mt.team_id = id)")
-    private transient int countMember;
+            "where mt.team_id = team_id)")
+    private int countMember;
 
     public static class AlreadyVotedException extends BusinessException {
         public AlreadyVotedException() {

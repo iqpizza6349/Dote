@@ -1,8 +1,8 @@
 package me.iqpizza6349.dote.domain.team.repository;
 
 import me.iqpizza6349.dote.domain.team.entity.MemberTeam;
-import me.iqpizza6349.dote.domain.team.entity.Team;
 import me.iqpizza6349.dote.domain.team.entity.embed.MemberTeamId;
+import me.iqpizza6349.dote.domain.vote.entity.Vote;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,8 +15,8 @@ import java.util.Set;
 public interface MemberTeamRepository
         extends JpaRepository<MemberTeam, MemberTeamId> {
 
-    @Query("select m from MemberTeam m where m.team = ?1")
-    Page<MemberTeam> findAllByTeam(Team team, Pageable pageable);
+    @Query("select m from MemberTeam m where m.team.vote = ?1")
+    Page<MemberTeam> findAllByTeamVote(Vote teamVote, Pageable pageable);
 
     @Query("select m from MemberTeam m where m.member.id = ?1")
     Set<MemberTeam> findAllByMemberId(int memberId);
