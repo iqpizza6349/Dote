@@ -22,7 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request,
-                             HttpServletResponse response, Object handler) throws Exception {
+                             HttpServletResponse response, Object handler) {
         log.info("request uri: {}", request.getRequestURI());
         if (!(handler instanceof HandlerMethod)) {
             return true;

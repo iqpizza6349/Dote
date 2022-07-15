@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.member.type.Role;
 import me.iqpizza6349.dote.global.exception.BusinessException;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
@@ -46,5 +45,4 @@ public class Member {
             super(HttpStatus.FORBIDDEN, "접근할 수 있는 권한이 없습니다.");
         }
     }
-
 }

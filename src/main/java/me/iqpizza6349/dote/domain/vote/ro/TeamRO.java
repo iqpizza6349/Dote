@@ -1,7 +1,6 @@
 package me.iqpizza6349.dote.domain.vote.ro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.iqpizza6349.dote.domain.team.entity.MemberTeam;
 

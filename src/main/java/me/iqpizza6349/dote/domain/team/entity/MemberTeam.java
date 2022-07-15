@@ -42,10 +42,4 @@ public class MemberTeam implements Serializable {
             super(HttpStatus.CONFLICT, "이미 투표를 진행하였습니다.");
         }
     }
-
-    public static class NeverVotedException extends BusinessException {
-        public NeverVotedException() {
-            super(HttpStatus.NOT_FOUND, "투표를 진행하지 않았습니다.");
-        }
-    }
 }

@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/vote")
@@ -46,7 +45,7 @@ public class VoteController {
     }
 
     @GetMapping("/{vote-id}")
-    public List<TeamResponseDto> findAllTeams(
+    public Page<TeamResponseDto> findAllTeams(
             @PathVariable(name = "vote-id") long voteId) {
         return voteService.findAllTeams(voteId);
     }

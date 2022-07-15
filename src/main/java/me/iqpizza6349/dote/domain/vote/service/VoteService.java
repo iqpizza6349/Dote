@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -89,12 +87,12 @@ public class VoteService {
                 .collect(Collectors.toList()));
     }
 
-    public List<TeamResponseDto> findAllTeams(long voteId) {
+    public Page<TeamResponseDto> findAllTeams(long voteId) {
         Vote vote = findById(voteId);
-        return teamService.findAllTeams(vote)
+        return new PageImpl<>(teamService.findAllTeams(vote)
                 .stream()
                 .map(TeamResponseDto::new)
-                .collect(Collectors.toCollection(LinkedList::new));
+                .collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
