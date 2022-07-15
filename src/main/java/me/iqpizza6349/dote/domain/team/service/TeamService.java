@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -41,8 +42,8 @@ public class TeamService {
     }
 
     @Transactional(readOnly = true)
-    protected List<Team> findAllByTeamId(Set<Team> voteTeams) {
-        return teamRepository.findAllByVoteTeams(voteTeams);
+    protected List<Team> findAllByTeamId(Vote vote) {
+        return teamRepository.findAllByVote(vote);
     }
     
     @Transactional(readOnly = true)
@@ -54,6 +55,11 @@ public class TeamService {
     @Transactional(readOnly = true)
     protected Set<MemberTeam> findAllByMemberId(int memberId) {
         return memberTeamRepository.findAllByMemberId(memberId);
+    }
+    
+    @Transactional(readOnly = true)
+    protected Page<MemberTeam> findAllByTeamVote(Vote vote, Pageable pageable) {
+        return memberTeamRepository.findAllByTeamVote(vote, pageable);
     }
 
     private boolean isExistedIn(Set<Team> teams, Team team) {
@@ -101,8 +107,14 @@ public class TeamService {
     }
 
     public Page<MemberTeam> findAll(Vote vote, int page) {
-        List<Team> teams = findAllByTeamId(vote.getTeams());
+        // 현황 조회
+        // 해당 투표에 있는 항목들만 조회
         Pageable pageable = PageRequest.of(page, 10, Sort.by("countMember").descending());
-        return memberTeamRepository.findAll(pageable);
+        return findAllByTeamVote(vote, pageable);
     }
+
+    public List<Team> findAllTeams(Vote vote) {
+        return findAllByTeamId(vote);
+    }
+
 }
