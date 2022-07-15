@@ -50,7 +50,7 @@ public class JPATest {
         // select v from Vote v where member_id = ? and team_id = ?
         // 해서 존재한다면 이미 투표한 것
         Member member = memberRepository.save(new Member(null, 2, 2, 17, Role.ADMIN));
-        Vote vote = voteRepository.save(new Vote(null, null, member, new HashSet<>()));
+        Vote vote = voteRepository.save(Vote.createVote("happy", new HashSet<>(), null));
         Set<Team> teams = new HashSet<>();
         for (int i = 0; i < 5; i++) {
             teams.add(new Team(null, "happy", null));
@@ -69,9 +69,4 @@ public class JPATest {
         assertThat(vote.getTeams()).isNotEmpty();
         assertThat(vote.getTeams().size()).isEqualTo(5);
     }
-
-
-
-
-
 }

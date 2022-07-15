@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.member.type.Role;
 import me.iqpizza6349.dote.global.exception.BusinessException;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
@@ -37,6 +38,12 @@ public class Member {
     public static class UnAuthenticationException extends BusinessException {
         public UnAuthenticationException() {
             super(HttpStatus.UNAUTHORIZED, "토큰이 입력되지 않았습니다.");
+        }
+    }
+
+    public static class ForbiddenException extends BusinessException {
+        public ForbiddenException() {
+            super(HttpStatus.FORBIDDEN, "접근할 수 있는 권한이 없습니다.");
         }
     }
 

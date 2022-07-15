@@ -3,13 +3,16 @@ package me.iqpizza6349.dote.domain.dauth.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.member.entity.Member;
+import me.iqpizza6349.dote.domain.member.type.Role;
 import me.iqpizza6349.dote.global.dto.RestBaseDto;
 
 @Getter
+@NoArgsConstructor
 public class DOpenApiDto extends RestBaseDto {
 
-    private final DodamInfoData dodamInfoData;
+    private DodamInfoData dodamInfoData;
 
     public DOpenApiDto(int status, String message, DodamInfoData dodamInfoData) {
         super(status, message);
@@ -45,6 +48,7 @@ public class DOpenApiDto extends RestBaseDto {
                     .grade(data.getGrade())
                     .number(data.getNumber())
                     .room(data.getRoom())
+                    .role(Role.USER)
                     .build();
         }
     }

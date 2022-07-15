@@ -1,10 +1,11 @@
 package me.iqpizza6349.dote.global.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class RestBaseDto {
 
-    private final int status;
-    private final String message;
+    private int status;
+    private String message;
 }

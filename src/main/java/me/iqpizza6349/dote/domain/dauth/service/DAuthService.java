@@ -56,7 +56,7 @@ public class DAuthService {
     public LoginDto dodamLogin(DodamLoginDto dodamLoginDto) {
         Member member = memberService.save(getCodeToDodamInfo(dodamLoginDto.getCode()));
         dTokenRepository.save(new DToken(null, dodamLoginDto.getCode()));
-        String  memberId = Integer.toString(member.getId());
+        String memberId = Integer.toString(member.getId());
         return LoginDto.builder()
                 .member(member)
                 .token(tokenProvider.generateToken(memberId, JwtAuth.ACCESS_TOKEN))

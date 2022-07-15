@@ -29,9 +29,9 @@ public class TokenProvider {
         expiredAt = (jwtAuth == JwtAuth.ACCESS_TOKEN)
                 ? new Date(expiredAt.getTime() + JWT_ACCESS_EXPIRE)
                 : new Date(expiredAt.getTime() + JWT_REFRESH_EXPIRE);
-        String secretKey = (jwtAuth == JwtAuth.REFRESH_TOKEN)
+        String secretKey = (jwtAuth == JwtAuth.ACCESS_TOKEN)
                 ? appProperties.getSecret()
-                : appProperties.getClientSecret();
+                : appProperties.getRefreshSecret();
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
@@ -39,7 +39,8 @@ public class TokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(jwtAuth.toString())
-                .setIssuedAt(expiredAt)
+                .setIssuedAt(new Date())
+                .setExpiration(expiredAt)
                 .signWith(SIGNATURE_ALGORITHM, secretKey)
                 .compact();
     }
