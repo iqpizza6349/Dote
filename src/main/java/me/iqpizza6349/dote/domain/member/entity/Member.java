@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.iqpizza6349.dote.domain.member.type.Role;
 import me.iqpizza6349.dote.global.exception.BusinessException;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
