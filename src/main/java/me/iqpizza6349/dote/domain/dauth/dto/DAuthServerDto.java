@@ -3,9 +3,10 @@ package me.iqpizza6349.dote.domain.dauth.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class DAuthServerDto {
 
     @JsonProperty("access_token")
