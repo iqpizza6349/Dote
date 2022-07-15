@@ -56,4 +56,10 @@ public class Vote {
             super(HttpStatus.NOT_FOUND, "존재하지 않는 투표입니다.");
         }
     }
+    
+    public static class AlreadyClosedException extends BusinessException {
+        public AlreadyClosedException() {
+            super(HttpStatus.CONFLICT, "이미 마감된 투표입니다.");
+        }
+    }
 }

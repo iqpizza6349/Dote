@@ -41,4 +41,10 @@ public class Member {
         }
     }
 
+    public static class ForbiddenException extends BusinessException {
+        public ForbiddenException() {
+            super(HttpStatus.FORBIDDEN, "접근할 수 있는 권한이 없습니다.");
+        }
+    }
+
 }
