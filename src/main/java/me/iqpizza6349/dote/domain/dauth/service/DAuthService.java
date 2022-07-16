@@ -30,7 +30,7 @@ public class DAuthService {
     private final DTokenRepository dTokenRepository;
     private final TokenProvider tokenProvider;
 
-    private DOpenApiDto.DodamInfoData getCodeToDodamInfo(final String code) {
+    private DOpenApiDto getCodeToDodamInfo(final String code) {
         log.info("----- dodam server request -----");
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer "
@@ -40,7 +40,7 @@ public class DAuthService {
                 "/user",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
-                DOpenApiDto.DodamInfoData.class
+                DOpenApiDto.class
         ).getBody();
     }
 
@@ -59,12 +59,8 @@ public class DAuthService {
 
     @Transactional
     public LoginDto dodamLogin(DodamLoginDto dodamLoginDto) {
-        DOpenApiDto.DodamInfoData data = getCodeToDodamInfo(dodamLoginDto.getCode());
-        log.info("dto: {}", data);
-        log.info("grade: {}", data.getGrade());
-        log.info("room: {}", data.getRoom());
-        log.info("number: {}", data.getNumber());
-        Member member = memberService.save(new DOpenApiDto(data));
+        DOpenApiDto data = getCodeToDodamInfo(dodamLoginDto.getCode());
+        Member member = memberService.save(data);
         dTokenRepository.save(new DToken(null, dodamLoginDto.getCode()));
         String memberId = Integer.toString(member.getId());
         return LoginDto.builder()
