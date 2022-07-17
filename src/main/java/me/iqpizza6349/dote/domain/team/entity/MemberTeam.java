@@ -18,12 +18,12 @@ import java.io.Serializable;
 public class MemberTeam implements Serializable {
 
     @Id
-    @OneToOne(optional = false, orphanRemoval = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "team_id")
     private Team team;
 
     @Id
-    @OneToOne(optional = false, orphanRemoval = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "member_id")
     private Member member;
 
