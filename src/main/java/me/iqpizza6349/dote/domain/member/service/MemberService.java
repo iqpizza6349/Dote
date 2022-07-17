@@ -16,6 +16,7 @@ public class MemberService {
     @Transactional
     public Member save(DOpenApiDto dOpenApiDto) {
         DOpenApiDto.DodamInfoData dodamInfoData = dOpenApiDto.getDodamInfoData();
+        
         return memberRepository.save(DOpenApiDto.DodamInfoData.toEntity(dodamInfoData));
     }
 }

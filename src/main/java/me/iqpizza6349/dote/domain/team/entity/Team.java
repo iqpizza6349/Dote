@@ -21,8 +21,8 @@ public class Team {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Vote vote;
 
     public void setVote(Vote vote) {

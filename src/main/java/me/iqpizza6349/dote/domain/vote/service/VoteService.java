@@ -53,7 +53,9 @@ public class VoteService {
             throw new Member.ForbiddenException();
         }
 
-        voteRepository.delete(findById(voteId));
+        Vote vote = findById(voteId);
+        teamService.deleteByVoteId(vote);
+        voteRepository.delete(vote);
     }
 
     private boolean isNotAdmin(Role role) {
@@ -83,7 +85,6 @@ public class VoteService {
         Vote vote = findById(voteId);
         // vote 의 teams 의 현황 조회
         return new PageImpl<>(teamService.findAll(vote, page).stream()
-                .map(TeamRO::new)
                 .collect(Collectors.toList()));
     }
 
