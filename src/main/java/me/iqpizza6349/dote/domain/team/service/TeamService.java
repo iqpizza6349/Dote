@@ -43,12 +43,6 @@ public class TeamService {
     }
     
     @Transactional(readOnly = true)
-    protected MemberTeam findById(MemberTeamId memberTeamId) {
-        return memberTeamRepository.findById(memberTeamId)
-                .orElseThrow(MemberTeam.NeverVotedException::new);
-    }
-    
-    @Transactional(readOnly = true)
     protected Set<MemberTeam> findAllByMemberId(int memberId) {
         return memberTeamRepository.findAllByMemberId(memberId);
     }
