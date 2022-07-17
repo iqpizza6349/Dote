@@ -83,7 +83,6 @@ public class VoteService {
         Vote vote = findById(voteId);
         // vote 의 teams 의 현황 조회
         return new PageImpl<>(teamService.findAll(vote, page).stream()
-                .map(TeamRO::new)
                 .collect(Collectors.toList()));
     }
 
