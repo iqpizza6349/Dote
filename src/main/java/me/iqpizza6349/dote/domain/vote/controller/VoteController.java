@@ -6,6 +6,7 @@ import me.iqpizza6349.dote.domain.team.ro.TeamResponseDto;
 import me.iqpizza6349.dote.domain.vote.dto.BallotDto;
 import me.iqpizza6349.dote.domain.vote.dto.VoteDto;
 import me.iqpizza6349.dote.domain.vote.ro.BallotRO;
+import me.iqpizza6349.dote.domain.vote.ro.ListRO;
 import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
 import me.iqpizza6349.dote.domain.vote.service.VoteService;
@@ -61,9 +62,8 @@ public class VoteController {
     }
 
     @GetMapping("/{vote-id}/ballot")
-    public Page<TeamRO> findStatusInquiry(
-            @PathVariable(name = "vote-id") long voteId,
-            @RequestParam int page) {
-        return voteService.findStatusInquiry(voteId, page);
+    public ListRO<TeamRO> findStatusInquiry(
+            @PathVariable(name = "vote-id") long voteId) {
+        return voteService.findStatusInquiry(voteId);
     }
 }

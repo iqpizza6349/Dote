@@ -13,6 +13,7 @@ import me.iqpizza6349.dote.domain.vote.dto.VoteDto;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
 import me.iqpizza6349.dote.domain.vote.repository.VoteRepository;
 import me.iqpizza6349.dote.domain.vote.ro.BallotRO;
+import me.iqpizza6349.dote.domain.vote.ro.ListRO;
 import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
 import org.springframework.data.domain.*;
@@ -81,10 +82,10 @@ public class VoteService {
         return new BallotRO(ballotDto.getTeamId());
     }
 
-    public Page<TeamRO> findStatusInquiry(long voteId, int page) {
+    public ListRO<TeamRO> findStatusInquiry(long voteId) {
         Vote vote = findById(voteId);
         // vote 의 teams 의 현황 조회
-        return new PageImpl<>(teamService.findAll(vote, page).stream()
+        return new ListRO<>(teamService.findAll(vote).stream()
                 .map(TeamRO::new)
                 .collect(Collectors.toList()));
     }
