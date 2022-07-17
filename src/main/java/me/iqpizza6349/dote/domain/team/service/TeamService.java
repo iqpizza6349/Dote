@@ -110,7 +110,7 @@ public class TeamService {
     public List<Team> findAllTeams(Vote vote) {
         return findAllByTeamId(vote);
     }
-
+    
     public void deleteByVoteId(Vote vote) {
         memberTeamRepository.deleteByTeamIn(vote.getTeams());
         teamRepository.deleteByVote(vote);
