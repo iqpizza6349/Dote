@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ListRO<T> {
 
-    private List<T> contents;
+    private List<T> content;
 
 }
