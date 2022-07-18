@@ -16,13 +16,13 @@ import me.iqpizza6349.dote.domain.vote.ro.BallotRO;
 import me.iqpizza6349.dote.domain.vote.ro.ListRO;
 import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -64,6 +64,7 @@ public class VoteService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "voteCaching", key = "#page")
     public Page<VoteRO> findVotePage(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("expiryDate").descending());
         Page<Vote> votePage = voteRepository.findAll(pageable);
@@ -90,12 +91,13 @@ public class VoteService {
                 .collect(Collectors.toList()));
     }
 
-    public List<TeamResponseDto> findAllTeams(long voteId) {
+    @Cacheable(value = "voteCaching", key = "#voteId")
+    public ListRO<TeamResponseDto> findAllTeams(long voteId) {
         Vote vote = findById(voteId);
-        return teamService.findAllTeams(vote)
+        return new ListRO<>(teamService.findAllTeams(vote)
                 .stream()
                 .map(TeamResponseDto::new)
-                .collect(Collectors.toCollection(LinkedList::new));
+                .collect(Collectors.toCollection(LinkedList::new)));
     }
 
     @Transactional(readOnly = true)
