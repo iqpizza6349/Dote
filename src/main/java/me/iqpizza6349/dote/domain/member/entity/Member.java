@@ -45,4 +45,10 @@ public class Member {
             super(HttpStatus.FORBIDDEN, "접근할 수 있는 권한이 없습니다.");
         }
     }
+
+    public static class AlreadyExistedException extends BusinessException {
+        public AlreadyExistedException() {
+            super(HttpStatus.CONFLICT, "이미 가입된 회원입니다.");
+        }
+    }
 }

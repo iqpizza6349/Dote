@@ -16,7 +16,19 @@ public class MemberService {
     @Transactional
     public Member save(DOpenApiDto dOpenApiDto) {
         DOpenApiDto.DodamInfoData dodamInfoData = dOpenApiDto.getDodamInfoData();
-        
+        Member member = DOpenApiDto.DodamInfoData.toEntity(dodamInfoData);
+        if (isExisted(member)) {
+            throw new Member.AlreadyExistedException();
+        }
+
         return memberRepository.save(DOpenApiDto.DodamInfoData.toEntity(dodamInfoData));
     }
+
+    @Transactional(readOnly = true)
+    protected boolean isExisted(Member member) {
+        return memberRepository.existsByGradeAndNumberAndRoom(
+                member.getGrade(), member.getNumber(), member.getRoom()
+        );
+    }
+
 }
