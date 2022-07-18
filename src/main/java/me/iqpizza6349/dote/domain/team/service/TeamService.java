@@ -70,7 +70,6 @@ public class TeamService {
         );
         query.setParameter("vote_id", vote.getId());
         return jpaResultMapper.list(query, TeamRO.class);
-//        return memberTeamRepository.findDistinctByTeamVote(vote.getId());
     }
 
     private boolean isExistedIn(Set<Team> teams, Team team) {

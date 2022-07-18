@@ -66,7 +66,6 @@ public class VoteService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "voteCaching", key = "#page")
     public Page<VoteRO> findVotePage(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("expiryDate").descending());
         Page<Vote> votePage = voteRepository.findAll(pageable);
