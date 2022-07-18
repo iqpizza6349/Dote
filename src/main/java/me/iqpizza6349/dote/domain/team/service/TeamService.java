@@ -9,10 +9,7 @@ import me.iqpizza6349.dote.domain.team.entity.embed.MemberTeamId;
 import me.iqpizza6349.dote.domain.team.repository.MemberTeamRepository;
 import me.iqpizza6349.dote.domain.team.repository.TeamRepository;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
-import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -52,8 +49,8 @@ public class TeamService {
     }
     
     @Transactional(readOnly = true)
-    protected Page<TeamRO> findAllByTeamVote(Vote vote, Pageable pageable) {
-        return memberTeamRepository.findDistinctByTeamVote(vote, pageable);
+    protected List<MemberTeam> findAllByTeamVote(Vote vote, Sort sort) {
+        return memberTeamRepository.findAllByTeamVote(vote, sort);
     }
 
     private boolean isExistedIn(Set<Team> teams, Team team) {
@@ -99,12 +96,11 @@ public class TeamService {
 
         memberTeamRepository.save(new MemberTeam(team, member));
     }
-
-    public Page<TeamRO> findAll(Vote vote, int page) {
+    
+    public List<MemberTeam> findAll(Vote vote) {
         // 현황 조회
         // 해당 투표에 있는 항목들만 조회
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("countMember").descending());
-        return findAllByTeamVote(vote, pageable);
+        return findAllByTeamVote(vote, Sort.by("countMember").descending());
     }
 
     public List<Team> findAllTeams(Vote vote) {

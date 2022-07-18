@@ -13,13 +13,16 @@ import me.iqpizza6349.dote.domain.vote.dto.VoteDto;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
 import me.iqpizza6349.dote.domain.vote.repository.VoteRepository;
 import me.iqpizza6349.dote.domain.vote.ro.BallotRO;
+import me.iqpizza6349.dote.domain.vote.ro.ListRO;
 import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
 import me.iqpizza6349.dote.domain.vote.ro.VoteRO;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,6 +66,7 @@ public class VoteService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "voteCaching", key = "#page")
     public Page<VoteRO> findVotePage(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("expiryDate").descending());
         Page<Vote> votePage = voteRepository.findAll(pageable);
@@ -81,19 +85,21 @@ public class VoteService {
         return new BallotRO(ballotDto.getTeamId());
     }
 
-    public Page<TeamRO> findStatusInquiry(long voteId, int page) {
+    public ListRO<TeamRO> findStatusInquiry(long voteId) {
         Vote vote = findById(voteId);
         // vote 의 teams 의 현황 조회
-        return new PageImpl<>(teamService.findAll(vote, page).stream()
+        return new ListRO<>(teamService.findAll(vote).stream()
+                .map(TeamRO::new)
                 .collect(Collectors.toList()));
     }
 
-    public Page<TeamResponseDto> findAllTeams(long voteId) {
+    @Cacheable(value = "voteCaching", key = "#voteId")
+    public ListRO<TeamResponseDto> findAllTeams(long voteId) {
         Vote vote = findById(voteId);
-        return new PageImpl<>(teamService.findAllTeams(vote)
+        return new ListRO<>(teamService.findAllTeams(vote)
                 .stream()
                 .map(TeamResponseDto::new)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toCollection(LinkedList::new)));
     }
 
     @Transactional(readOnly = true)
