@@ -88,9 +88,7 @@ public class VoteService {
     public ListRO<TeamRO> findStatusInquiry(long voteId) {
         Vote vote = findById(voteId);
         // vote 의 teams 의 현황 조회
-        return new ListRO<>(teamService.findAll(vote).stream()
-                .map(TeamRO::new)
-                .collect(Collectors.toList()));
+        return new ListRO<>(teamService.findAll(vote));
     }
 
     @Cacheable(value = "voteCaching", key = "#voteId")
