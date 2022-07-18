@@ -1,36 +1,34 @@
 package me.iqpizza6349.dote.domain.dauth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.member.type.Role;
-import me.iqpizza6349.dote.global.dto.RestBaseDto;
+
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
-public class DOpenApiDto extends RestBaseDto {
+public class DOpenApiDto implements Serializable {
 
+    @JsonProperty("data")
     private DodamInfoData dodamInfoData;
 
-    public DOpenApiDto(int status, String message, DodamInfoData dodamInfoData) {
-        super(status, message);
+    public DOpenApiDto(DodamInfoData dodamInfoData) {
         this.dodamInfoData = new DodamInfoData(dodamInfoData);
     }
 
     @Getter
-    @AllArgsConstructor
-    @Builder
-    public static class DodamInfoData {
-        private final String uniqueId;
-        private final int grade;
-        private final int room;
-        private final int number;
-        private final String name;
-        private final String email;
-        private final String profileImage;
-        private final int accessLevel;
+    @AllArgsConstructor @NoArgsConstructor
+    public static class DodamInfoData implements Serializable {
+        private String uniqueId;
+        private int grade;
+        private int room;
+        private int number;
+        private String name;
+        private String email;
+        private String profileImage;
+        private int accessLevel;
 
         public DodamInfoData(DodamInfoData data) {
             this.uniqueId = data.getUniqueId();

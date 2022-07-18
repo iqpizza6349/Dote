@@ -29,7 +29,7 @@ public class Vote {
     private LocalDateTime expiryDate;
 
     @Builder.Default
-    @OneToMany(mappedBy = "vote", cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote")
     private Set<Team> teams = new HashSet<>();
 
     public void addTeam(Team team) {

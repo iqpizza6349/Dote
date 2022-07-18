@@ -19,7 +19,7 @@ public class RestTemplateConfig {
         return restTemplateBuilder.rootUri(endpoint)
                 .additionalInterceptors(new RestTemplateRequestInterceptor())
                 .errorHandler(new RestTemplateErrorHandler())
-                .setConnectTimeout(Duration.ofSeconds(100))
+                .setConnectTimeout(Duration.ofMinutes(2))
                 .build();
     }
 
@@ -32,6 +32,4 @@ public class RestTemplateConfig {
     public RestTemplate openTemplate() {
         return restTemplate(EndPoint.OPEN_API.getEndPoint());
     }
-
-
 }

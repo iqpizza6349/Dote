@@ -56,7 +56,9 @@ public class VoteService {
             throw new Member.ForbiddenException();
         }
 
-        voteRepository.delete(findById(voteId));
+        Vote vote = findById(voteId);
+        teamService.deleteByVoteId(vote);
+        voteRepository.delete(vote);
     }
 
     private boolean isNotAdmin(Role role) {

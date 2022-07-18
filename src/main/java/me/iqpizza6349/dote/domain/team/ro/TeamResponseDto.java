@@ -13,5 +13,4 @@ public class TeamResponseDto {
         this.id = team.getId();
         this.name = team.getName();
     }
-
 }

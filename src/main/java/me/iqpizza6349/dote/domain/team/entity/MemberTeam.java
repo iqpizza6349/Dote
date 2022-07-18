@@ -18,12 +18,12 @@ import java.io.Serializable;
 public class MemberTeam implements Serializable {
 
     @Id
-    @OneToOne(optional = false, orphanRemoval = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "team_id")
     private Team team;
 
     @Id
-    @OneToOne(optional = false, orphanRemoval = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -40,12 +40,6 @@ public class MemberTeam implements Serializable {
     public static class AlreadyVotedException extends BusinessException {
         public AlreadyVotedException() {
             super(HttpStatus.CONFLICT, "이미 투표를 진행하였습니다.");
-        }
-    }
-
-    public static class NeverVotedException extends BusinessException {
-        public NeverVotedException() {
-            super(HttpStatus.NOT_FOUND, "투표를 진행하지 않았습니다.");
         }
     }
 }

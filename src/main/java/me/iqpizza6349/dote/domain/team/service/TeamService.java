@@ -9,6 +9,7 @@ import me.iqpizza6349.dote.domain.team.entity.embed.MemberTeamId;
 import me.iqpizza6349.dote.domain.team.repository.MemberTeamRepository;
 import me.iqpizza6349.dote.domain.team.repository.TeamRepository;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -95,7 +96,7 @@ public class TeamService {
 
         memberTeamRepository.save(new MemberTeam(team, member));
     }
-
+    
     public List<MemberTeam> findAll(Vote vote) {
         // 현황 조회
         // 해당 투표에 있는 항목들만 조회
@@ -105,5 +106,9 @@ public class TeamService {
     public List<Team> findAllTeams(Vote vote) {
         return findAllByTeamId(vote);
     }
-
+    
+    public void deleteByVoteId(Vote vote) {
+        memberTeamRepository.deleteByTeamIn(vote.getTeams());
+        teamRepository.deleteByVote(vote);
+    }
 }

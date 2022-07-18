@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Getter
 @AllArgsConstructor @NoArgsConstructor
-public class DAuthServerDto {
-
+public class DAuthServerDto implements Serializable {
     @JsonProperty("access_token")
     private String accessToken;
 
