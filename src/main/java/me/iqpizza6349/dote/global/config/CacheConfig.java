@@ -21,15 +21,15 @@ public class CacheConfig {
 
     @Bean
     public EhCacheCacheManager ehCacheCacheManager() {
-        CacheConfiguration cacheConfiguration = new CacheConfiguration()
+        CacheConfiguration voteCacheConfig = new CacheConfiguration()
                 .eternal(false)
                 .timeToIdleSeconds(0)
-                .timeToLiveSeconds(300)     // 5 min
+                .timeToLiveSeconds(1800)     // half-hour
                 .maxEntriesLocalHeap(0)
                 .memoryStoreEvictionPolicy("LRU")
                 .name("voteCaching");
 
-        Cache voteCache = new Cache(cacheConfiguration);
+        Cache voteCache = new Cache(voteCacheConfig);
         Objects.requireNonNull(ehCacheManagerFactoryBean().getObject())
                 .addCache(voteCache);
         return new EhCacheCacheManager(
