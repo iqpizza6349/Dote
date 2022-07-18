@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +22,6 @@ import java.util.Set;
 @Repository
 public interface MemberTeamRepository
         extends JpaRepository<MemberTeam, MemberTeamId> {
-
-//    @Query("select m from MemberTeam m where m.team.vote = ?1")
-//    List<MemberTeam> findAllByTeamVote(Vote teamVote, Sort sort);
-
-    @Query("select distinct " +
-            "new me.iqpizza6349.dote.domain.vote.ro.TeamRO(m.team.name, m.countMember) " +
-            "from MemberTeam m where m.team.vote = ?1")
-    List<TeamRO> findDistinctByTeamVote(Vote teamVote, Sort sort);
-
-
     @Query("select m from MemberTeam m where m.member.id = ?1")
     Set<MemberTeam> findAllByMemberId(int memberId);
 

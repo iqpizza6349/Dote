@@ -11,11 +11,15 @@ import me.iqpizza6349.dote.domain.team.repository.TeamRepository;
 import me.iqpizza6349.dote.domain.vote.entity.Vote;
 
 import me.iqpizza6349.dote.domain.vote.ro.TeamRO;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +31,9 @@ public class TeamService {
     
     private final MemberTeamRepository memberTeamRepository;
     private final TeamRepository teamRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional(readOnly = true)
     protected Team findById(long teamId) {
@@ -51,7 +58,19 @@ public class TeamService {
     
     @Transactional(readOnly = true)
     protected List<TeamRO> findAllByTeamVote(Vote vote, Sort sort) {
-        return memberTeamRepository.findDistinctByTeamVote(vote, sort);
+        JpaResultMapper jpaResultMapper = new JpaResultMapper();
+        Query query = entityManager.createNativeQuery(
+                "select distinct team1_.name as col_0_0_,\n" +
+                        "                ifnull((select count(*) from member_team mt where mt.team_id = memberteam0_.team_id), 0) as col_1_0_\n" +
+                        "from member_team memberteam0_\n" +
+                        "    right join team team1_ on memberteam0_.team_id = team1_.id\n" +
+                        "    where team1_.vote_id = :vote_id\n" +
+                        "order by (select count(*) from member_team mt where mt.team_id = memberteam0_.team_id)\n" +
+                        "desc limit 10"
+        );
+        query.setParameter("vote_id", vote.getId());
+        return jpaResultMapper.list(query, TeamRO.class);
+//        return memberTeamRepository.findDistinctByTeamVote(vote.getId());
     }
 
     private boolean isExistedIn(Set<Team> teams, Team team) {
