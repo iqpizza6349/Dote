@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +66,14 @@ public class VoteService {
     public void deleteWithHandler(LocalDateTime dateTime) {
         // 현재 시간이 마감 시간 보다 30분이나 지난 모든 Vote 조회
         List<Vote> votes = voteRepository.findByExpiryDateBefore(dateTime);
+//        for (Iterator<Vote> voteIterator = votes.iterator(); voteIterator.hasNext();) {
+//            teamService.deleteByVoteId(voteIterator.next());
+//        }
+
         for (Vote vote : votes) {
+            if (vote == null) {
+                continue;
+            }
             teamService.deleteByVoteId(vote);
         }
         voteRepository.deleteAll(votes);

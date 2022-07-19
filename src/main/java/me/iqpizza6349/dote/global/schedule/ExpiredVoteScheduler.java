@@ -11,14 +11,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-@EnableAsync
 @EnableScheduling
 @RequiredArgsConstructor
 public class ExpiredVoteScheduler {
 
     private final VoteService voteService;
 
-    @Async
     @Scheduled(fixedDelay = 60 * 1000)
     public void removeExpiredVoteHandler() {
         voteService.deleteWithHandler(LocalDateTime.now().minusMinutes(30));

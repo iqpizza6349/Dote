@@ -127,7 +127,20 @@ public class TeamService {
     }
     
     public void deleteByVoteId(Vote vote) {
+        if (vote.getTeams() == null || hasNull(vote.getTeams())) {
+            return;
+        }
+
         memberTeamRepository.deleteByTeamIn(vote.getTeams());
-        teamRepository.deleteByVote(vote);
+    }
+
+    private boolean hasNull(Set<Team> teams) {
+        for (Team team : teams) {
+            if (team == null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

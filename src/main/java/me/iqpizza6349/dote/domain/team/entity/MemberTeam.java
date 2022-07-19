@@ -18,12 +18,12 @@ import java.io.Serializable;
 public class MemberTeam implements Serializable {
 
     @Id
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "team_id")
     private Team team;
 
     @Id
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;
 
