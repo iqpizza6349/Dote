@@ -2,11 +2,13 @@ package me.iqpizza6349.dote.domain.dauth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.member.type.Role;
 
 import java.io.Serializable;
 
+@Slf4j
 @Getter
 @NoArgsConstructor
 public class DOpenApiDto implements Serializable {
@@ -46,6 +48,13 @@ public class DOpenApiDto implements Serializable {
             if (data.getGrade() == 2 && data.getRoom() == 1 && data.getNumber() == 17) {
                 role = Role.ADMIN;
             }
+            if (data.getGrade() == 2 && data.getRoom() == 2 && data.getNumber() == 18) {
+                role = Role.ADMIN;
+            }
+            if (data.getGrade() == 2 && data.getRoom() == 2 && data.getNumber() == 17) {
+                role = Role.ADMIN;
+            }
+            log.info("role: {}", role);
 
             return Member.builder()
                     .grade(data.getGrade())
