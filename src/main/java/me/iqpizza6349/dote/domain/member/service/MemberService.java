@@ -22,10 +22,6 @@ public class MemberService {
             throw new Member.AlreadyExistedException();
         }
 
-        if (member.getGrade() == 2 && member.getNumber() == 17
-                && (member.getRoom() == 1 || member.getRoom() == 2)) {
-            member.setRole(Role.ADMIN);
-        }
         return memberRepository.save(DOpenApiDto.DodamInfoData.toEntity(dodamInfoData));
     }
 

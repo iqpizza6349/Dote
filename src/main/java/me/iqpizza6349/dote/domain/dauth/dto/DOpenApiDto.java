@@ -42,11 +42,16 @@ public class DOpenApiDto implements Serializable {
         }
 
         public static Member toEntity(DodamInfoData data) {
+            Role role = Role.USER;
+            if (data.getGrade() == 2 && data.getRoom() == 1 && data.getNumber() == 17) {
+                role = Role.ADMIN;
+            }
+
             return Member.builder()
                     .grade(data.getGrade())
                     .number(data.getNumber())
                     .room(data.getRoom())
-                    .role(Role.USER)
+                    .role(role)
                     .build();
         }
     }
