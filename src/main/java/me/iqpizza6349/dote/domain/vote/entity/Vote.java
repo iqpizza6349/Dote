@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -30,25 +32,19 @@ public class Vote {
 
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote", orphanRemoval = true)
-    private Set<Team> teams = new HashSet<>();
+    private List<Team> teams = new ArrayList<>();
 
-    public void addTeam(Team team) {
-        team.setVote(this);
-        teams.add(team);
-    }
-
-    public static Vote createVote(String title, Set<Team> teams,  LocalDateTime expiryDate) {
-        Vote vote = Vote.builder()
+    public static Vote createVote(String title, LocalDateTime expiryDate) {
+        return Vote.builder()
                 .title(title)
                 .expiryDate((expiryDate == null)
                         ? LocalDateTime.of(2038, 1, 19, 12, 14, 8)
                         : expiryDate)
                 .build();
-        for (Team team : teams) {
-            vote.addTeam(team);
-        }
+    }
 
-        return vote;
+    public void addTeam(List<Team> teams) {
+        this.teams.addAll(teams);
     }
 
     public static class NotExistException extends BusinessException {

@@ -72,7 +72,7 @@ public class TeamService {
         return jpaResultMapper.list(query, TeamRO.class);
     }
 
-    private boolean isExistedIn(Set<Team> teams, Team team) {
+    private boolean isExistedIn(List<Team> teams, Team team) {
         return teams.contains(team);
     }
 
@@ -92,9 +92,8 @@ public class TeamService {
         return false;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void saveAll(Set<Team> teams) {
-        teamRepository.saveAll(teams);
+    public List<Team> saveAll(Set<Team> teams) {
+        return teamRepository.saveAll(teams);
     }
 
     public void ballot(Member member, Vote vote, long teamId) {
@@ -134,7 +133,7 @@ public class TeamService {
         memberTeamRepository.deleteByTeamIn(vote.getTeams());
     }
 
-    private boolean hasNull(Set<Team> teams) {
+    private boolean hasNull(List<Team> teams) {
         for (Team team : teams) {
             if (team == null) {
                 return true;

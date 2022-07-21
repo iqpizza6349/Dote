@@ -28,6 +28,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public static class NotFoundException extends BusinessException {
         public NotFoundException() {
             super(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.");

@@ -17,8 +17,8 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class TokenProvider {
-    private static final long JWT_ACCESS_EXPIRE = 1000 * 60 * 60;
-    private static final long JWT_REFRESH_EXPIRE = 1000 * 60 * 60 * 7;
+    private static final long JWT_ACCESS_EXPIRE = 1000 * 60 * 60 * 24;
+    private static final long JWT_REFRESH_EXPIRE = 1000 * 60 * 60 * 24 * 7;
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
     private final AppProperties appProperties;

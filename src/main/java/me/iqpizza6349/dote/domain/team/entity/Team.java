@@ -22,15 +22,15 @@ public class Team {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private Vote vote;
 
     public void setVote(Vote vote) {
         this.vote = vote;
     }
 
-    public Team(String name) {
-        this(null, name, null);
+    public Team(String name, Vote vote) {
+        this(null, name, vote);
     }
 
     public static class NotExistedException extends BusinessException {

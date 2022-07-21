@@ -3,8 +3,6 @@ package me.iqpizza6349.dote.domain.dauth.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.iqpizza6349.dote.domain.dauth.dto.*;
-import me.iqpizza6349.dote.domain.dauth.entity.DToken;
-import me.iqpizza6349.dote.domain.dauth.repository.DTokenRepository;
 import me.iqpizza6349.dote.domain.member.entity.Member;
 import me.iqpizza6349.dote.domain.member.service.MemberService;
 import me.iqpizza6349.dote.global.config.AppProperties;
@@ -27,7 +25,6 @@ public class DAuthService {
     private final RestTemplateConfig restTemplateConfig;
     private final AppProperties appProperties;
     private final MemberService memberService;
-    private final DTokenRepository dTokenRepository;
     private final TokenProvider tokenProvider;
 
     private DOpenApiDto getCodeToDodamInfo(final String code) {
@@ -61,7 +58,6 @@ public class DAuthService {
     public LoginDto dodamLogin(DodamLoginDto dodamLoginDto) {
         DOpenApiDto data = getCodeToDodamInfo(dodamLoginDto.getCode());
         Member member = memberService.save(data);
-        dTokenRepository.save(new DToken(null, dodamLoginDto.getCode()));
         String memberId = Integer.toString(member.getId());
         return LoginDto.builder()
                 .member(member)

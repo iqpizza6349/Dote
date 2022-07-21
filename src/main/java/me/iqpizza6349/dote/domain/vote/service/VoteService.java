@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,16 +38,18 @@ public class VoteService {
         if (isNotAdmin(member.getRole())) {
             throw new Member.ForbiddenException();
         }
+        Vote vote = voteRepository.save(
+                Vote.createVote(voteDto.getTitle(), voteDto.getEndTime())
+        );
 
-        Set<Team> teamSet = voteDto.getItems()
-                .stream()
-                .map(TeamDto::getName)
-                .map(Team::new)
-                .collect(Collectors.toSet());
-        log.info("item size: {}", teamSet.size());
-        Vote vote = Vote.createVote(voteDto.getTitle(), teamSet, voteDto.getEndTime());
-        teamService.saveAll(teamSet);
-        return new VoteRO(voteRepository.save(vote));
+        List<TeamDto> teamSet = voteDto.getItems();
+        Set<Team> teams = new HashSet<>();
+        for (TeamDto teamDto : teamSet) {
+            teams.add(new Team(teamDto.getName(), vote));
+        }
+        List<Team> list = teamService.saveAll(teams);
+        vote.addTeam(list);
+        return new VoteRO(vote);
     }
     
     public void deleteVote(Member member, long voteId) {
