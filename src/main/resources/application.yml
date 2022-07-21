@@ -1,0 +1,31 @@
+server:
+  port: 80
+
+spring:
+  mvc:
+    servlet:
+      path: /api/v1
+  jpa:
+    show-sql: true
+    database: MYSQL
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        default_batch_fetch_size: 10
+  datasource:
+    url: jdbc:mysql://sgr7gpyt0vibb9dq:e2x2zd0imhpboqx6@s465z7sj4pwhp7fn.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/sx1x0alb8uypfsze?serverTimezone=Asia/Seoul&reconnect=true&useUnicode=true&characterEncoding=utf8
+    username: sgr7gpyt0vibb9dq
+    password: e2x2zd0imhpboqx6
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    serialization:
+      fail_on_empty_beans: false
+
+app:
+  secret: dope
+  refresh-secret: dote
+  client-id: 547d6e5337be4aba826b8b390120e87da0dbc8c45c01431984fd21866c67a2a7
+  client-secret: 1ceb9c8444334892a327cf0aba557da9c31d88ef0e27498bb303743725157df8
